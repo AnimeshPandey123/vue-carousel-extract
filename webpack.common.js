@@ -5,6 +5,9 @@ const projectRoot = path.resolve(__dirname, './');
 
 const { VueLoaderPlugin } = require('vue-loader');
 
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+
 const banner = [
   'vue-carousel v' + npmCfg.version,
   '(c) ' + (new Date().getFullYear()) + ' ' + npmCfg.author,
@@ -55,12 +58,18 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [ 'vue-style-loader', 'css-loader' ]
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
       }
     ]
   },
   plugins: [
     new webpack.BannerPlugin(banner),
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: "vue-carousel.css",
+      chunkFilename: "vue-carousel.css"
+    })
   ]
 }
